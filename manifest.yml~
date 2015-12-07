@@ -1,0 +1,6 @@
+---
+applications:
+  - name: enccryptOracle
+    buildpack: java_buildpack
+    path: complete/build/libs/gs-rest-service-0.1.0.jar
+
