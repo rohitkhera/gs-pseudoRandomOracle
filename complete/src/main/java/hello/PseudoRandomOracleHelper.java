@@ -2,15 +2,15 @@
 * FILENAME :        PseudoRandomOracleHelper.java             
 *
 * DESCRIPTION :
-*       A Helper to Implement a (pseudo) random oracle for the IND-CPA ciphertext distinguishing game
+*       A Controller to Implement an encryption  oracle for the IND-CPA ciphertext distinguishing game
 *
 * PUBLIC FUNCTIONS :
 *       
 *
-It is a standard approach to model modern ciphers as pseudo random functions (PRF). A PRF is semantically secure if knowledge of a cipher text does not reveal any information about the key or the plaintext to a **polynomial time** adversary (cf. contrast with "perfect secrecy"). An equivalent definition of sematic security is ciphertext indistinguishbility under chosen plaintext attack (IND-CPA security). This definition is based on a distinguishing game where a polynomial time adversary chooses two distinct messages, m_1 and m_2, and submits them to an encrypting oracle that implements the PRF. The oracle then randomly picks one of the two messages, encrypts them with the PRF, and returns this ciphertext to the adversary. The PRF is semantically secure if the likelihood that the adversary can correctly guess the corresponding plaintext to the ciphertext is no greater than 1/2 plus some "negligible" advantage
+It's standard to model modern block ciphers as pseudo random functions. A secure multiple message mode of operation for a block cipher is said to be semantically secure if knowledge of a cipher text does not reveal any information about the key or the plaintext to a **polynomial time** adversary (cf. contrast with "perfect secrecy"). An equivalent definition of sematic security is ciphertext indistinguishbility under chosen plaintext attack (IND-CPA security). This definition is based on a distinguishing game where a polynomial time adversary chooses two distinct messages, m_1 and m_2, and submits them to an encrypting oracle that implements the PRF. The oracle then randomly picks one of the two messages, encrypts them with the PRF, and returns this ciphertext to the adversary. The scheme is semantically secure if the likelihood that the adversary can correctly guess the corresponding plaintext to the ciphertext is no greater than 1/2 plus some "negligible" advantage
 
 Implementation details: 
-1) The chosen PRF is AES-128-CTR
+1) The chosen block cipher is AES-128. The mode of operation is CTR
 2) Input plaintexts are each 16 bytes long which is equal to the AES block size
 4) The two plaintexts are passed in to the rest endpoint through the following URL and parameter as a 64 character concatenated hex string:
 http://pseudorandomoracle.cfapps.io/oracle?plaintexts=e0c10203f40501070d99aa0c00d0890fa0c13203f40501070d99aa0c00d089ff
@@ -25,6 +25,7 @@ http://pseudorandomoracle.cfapps.io/oracle?plaintexts=e0c10203f40501070d99aa0c00
 * 
 *
 */
+
 
 
 
@@ -60,7 +61,7 @@ public class PseudoRandomOracleHelper {
     private byte[] keyBytes = new byte[] { 0x70, (byte)0xc1, 0x02, 0x03, (byte)0xf4, 0x05, 0x01, 0x07, 0x0d, (byte)0x99,
 					  (byte)0xaa, 0x0c, 0x00, (byte)0xd0, (byte)0x89, 0x0f };
 
-    private byte[] ivBytes = new byte[] {(byte)0x69,(byte)0xdd,(byte)0xa8,(byte)0x45,(byte)0x5c,(byte)0x7d,(byte)0xd4,(byte)0x25,(byte)0x4b,(byte)0xf3,(byte)0x53,(byte)0xb7,(byte)0x73,(byte)0x30,(byte)0x4e,(byte)0xec};
+
 
 
     private String plaintexts; 
